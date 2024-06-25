@@ -1,4 +1,25 @@
 #Just setting a few cron job to do after my pi restart
-@reboot sleep 60 && python3 /home/pi/Documents/programming/python/Robbot/app.py 2>&1 > /dev/tty1 & echo 'Robbot' $! >> /home/pi/Documents/tg_app_pid.txt
-@reboot sleep 60 && python3 /home/pi/Documents/programming/python/my-tg-app/app.py 2>&1 > /dev/tty1 & echo 'my-tg-app' $! >> /home/pi/Documents/tg_app_pid.txt
-@reboot sleep 60 && python3 /home/pi/Documents/programming/python/TelegramChatInsights/app.py 2>&1 > /dev/tty1 & echo 'Tg Insights' $! >> /home/pi/Documents/tg_app_pid.txt
+
+sudo systemctl edit --force --full <name-service>.service
+
+#it opens a nano blank file and you fill with these information
+
+[Unit]
+Description= Description Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3.11 <absolute-path>/app.py
+WorkingDirectory=<absolute-path>
+StandardOutput=inherit
+StandardError=inherit
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+
+#Save and close nano file then type these commands
+
+sudo systemctl enable <name-service>.service
+sudo systemctl start <name-service>.service
+
